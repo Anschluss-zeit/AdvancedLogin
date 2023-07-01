@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 public final class AdvancedLogin extends Plugin {
     public static Logger logger;
     public static Plugin instance;
-    public static ConfigManager config, whitelist;
+    public static ConfigManager config, whitelist, blacklist;
     public static NetworkManager api;
 
     @Override
@@ -20,6 +20,7 @@ public final class AdvancedLogin extends Plugin {
         logger.info("正在加载 AdvancedLogin 插件...");
         config = new ConfigManager("config.yml");
         whitelist = new ConfigManager("whitelist.yml");
+        blacklist = new ConfigManager("blacklist.yml");
         api = new NetworkManager("https://api.mojang.com/users/profiles/minecraft/");
         getProxy().getPluginManager().registerListener(this, new PostLoginEventHandler());
         getProxy().getPluginManager().registerCommand(this, new aloginHandler());

@@ -6,6 +6,7 @@ import net.md_5.bungee.api.plugin.Command;
 
 import java.util.ArrayList;
 
+import static skyfire.advancedlogin.AdvancedLogin.blacklist;
 import static skyfire.advancedlogin.AdvancedLogin.whitelist;
 
 public class aloginHandler extends Command {
@@ -44,6 +45,24 @@ public class aloginHandler extends Command {
             else{
                 sender.sendMessage(new TextComponent("未知指令！"));
             }
+            if(args[0].equals("blacklist")){
+                if(args[1].equals("enable")){
+                    blacklist.set("enabled", true);
+                    blacklist.save(); blacklist.reload();
+                    sender.sendMessage(new TextComponent("设置成功！"));
+                }
+                else if(args[1].equals("disable")){
+                    blacklist.set("enabled", false);
+                    blacklist.save(); blacklist.reload();
+                    sender.sendMessage(new TextComponent("设置成功！"));
+                }
+                else{
+                    sender.sendMessage(new TextComponent("未知指令！"));
+                }
+            }
+            else{
+                sender.sendMessage(new TextComponent("未知指令！"));
+            }
         }
         else if(args.length == 3){
             if(args[0].equals("whitelist")){
@@ -71,6 +90,36 @@ public class aloginHandler extends Command {
                         }
                     }
                     sender.sendMessage(new TextComponent("未找到用户名！"));
+                }
+                else {
+                    sender.sendMessage(new TextComponent("未知指令！"));
+                }
+            }
+            if(args[0].equals("blacklist")){
+                ArrayList<String> blacklists = (ArrayList<String>) blacklist.getStringList("whitelist");
+                if(args[1].equals("add")){
+                    for(String name : blacklists){
+                        if(name.equals(args[2])){
+                            sender.sendMessage(new TextComponent("已有相同uuid！"));
+                            return;
+                        }
+                    }
+                    blacklists.add(args[2]);
+                    blacklist.set("blacklist", blacklists);
+                    blacklist.save(); blacklist.reload();
+                    sender.sendMessage(new TextComponent("添加成功！"));
+                }
+                else if(args[1].equals("remove")){
+                    for(int i = 0; i < blacklists.size(); i++){
+                        if(blacklists.get(i).equals(args[2])){
+                            blacklists.remove(i);
+                            blacklist.set("blacklist", blacklists);
+                            blacklist.save(); blacklist.reload();
+                            sender.sendMessage(new TextComponent("删除成功！"));
+                            return;
+                        }
+                    }
+                    sender.sendMessage(new TextComponent("未找到uuid！"));
                 }
                 else {
                     sender.sendMessage(new TextComponent("未知指令！"));

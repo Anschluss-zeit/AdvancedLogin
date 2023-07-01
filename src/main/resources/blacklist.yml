@@ -1,0 +1,9 @@
+#AdvancedLogin uuid黑名单配置文件
+#By Skyfire
+
+#是否启用
+enabled: true
+
+#黑名单
+blacklist:
+  - 00000000000000000000000000000000

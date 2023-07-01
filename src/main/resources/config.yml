@@ -9,6 +9,10 @@
 #可能会影响性能，但效果较好
 AsyncRequest: false
 
+#一次登录失败后将该 uuid 拉入黑名单
+#默认 true
+AutoAddBlackList: true
+
 Messages:
   checkFailed: |-
     您的用户名不存在对应的 Mojang 档案

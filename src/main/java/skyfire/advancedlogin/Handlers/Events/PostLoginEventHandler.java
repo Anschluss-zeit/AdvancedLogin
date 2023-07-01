@@ -25,31 +25,58 @@ public class PostLoginEventHandler implements Listener {
         else{
             String playerName = player.getName();
             ArrayList<String> whitelists = (ArrayList<String>) whitelist.getStringList("whitelist");
+            ArrayList<String> blacklists = (ArrayList<String>) blacklist.getStringList("blacklist");
             if(whitelist.getBoolean("enabled")){
                 for(String name : whitelists){
-                    if(name.equals(playerName)) return;
+                    if(name.equals(playerName)){
+                        logger.info("玩家" + playerName + "存在于豁免名单中，放行");
+                        return;
+                    }
+                }
+            }
+            if(blacklist.getBoolean("enabled")){
+                for(String name : blacklists){
+                    if(name.equals(playerName)){
+                        logger.info("玩家" + playerName + "存在于禁止名单中！断开连接...");
+                        player.disconnect(new TextComponent(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.checkFailed"))));
+                        return;
+                    }
                 }
             }
             JSONObject result = api.sendGetWithSub(playerName);
+            String uuid_official, uuid_player;
+            uuid_player = player.getUniqueId().toString();
+            while(uuid_player.contains("-")){
+                uuid_player = uuid_player.replace("-", "");
+            }
+            boolean flag = false;
             if(result == null){
                 logger.info("玩家" + playerName + "无法查询到对应正版账号！断开连接...");
+                flag = true;
                 player.disconnect(new TextComponent(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.checkFailed"))));
             }
             else{
                 logger.info("玩家" + playerName + "查询到对应正版账号！");
-                String uuid_official = result.getString("id");
-                String uuid_player = player.getUniqueId().toString();
-                while(uuid_player.contains("-")){
-                    uuid_player = uuid_player.replace("-", "");
-                }
+                uuid_official = result.getString("id");
                 logger.info("玩家UUID为" + uuid_player);
                 if(uuid_player.equals(uuid_official)){
                     logger.info("UUID匹配，放行");
                 }
                 else{
                     logger.info("UUID不匹配，断开连接...");
+                    flag = true;
                     player.disconnect(new TextComponent(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.checkFailed"))));
                 }
+            }
+            if(flag){
+                for(String name : blacklists){
+                    if(name.equals(uuid_player)){
+                        return;
+                    }
+                }
+                blacklists.add(uuid_player);
+                blacklist.set("blacklist", blacklists);
+                blacklist.save(); blacklist.reload();
             }
         }
     }
