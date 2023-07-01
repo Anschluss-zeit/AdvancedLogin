@@ -48,6 +48,7 @@ public class PostLoginEventHandler implements Listener {
                 }
                 else{
                     logger.info("UUID不匹配，断开连接...");
+                    player.disconnect(new TextComponent(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.checkFailed"))));
                 }
             }
         }
