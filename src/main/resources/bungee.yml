@@ -1,0 +1,3 @@
+name: AdvancedLogin
+version: '${project.version}'
+main: skyfire.advancedlogin.AdvancedLogin

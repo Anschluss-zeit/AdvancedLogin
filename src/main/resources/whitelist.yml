@@ -1,0 +1,9 @@
+#AdvancedLogin 豁免名单配置文件
+#By Skyfire
+
+#是否启用
+enabled: true
+
+#白名单
+whitelist:
+  - Notch

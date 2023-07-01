@@ -1,0 +1,14 @@
+#AdvancedLogin 配置文件
+#By Skyfire
+
+#是否开启异步 API 请求
+#默认 false
+#开启后请求 Mojang API 将采用异步形式
+#但是可能会出现玩家进服然后被踢出的情况
+#关闭后则阻塞 PostLogin 事件进行请求
+#可能会影响性能，但效果较好
+AsyncRequest: false
+
+Messages:
+  checkFailed: |-
+    您的用户名不存在对应的 Mojang 档案
