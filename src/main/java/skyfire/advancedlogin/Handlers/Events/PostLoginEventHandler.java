@@ -24,11 +24,20 @@ public class PostLoginEventHandler implements Listener {
         }
         else{
             String playerName = player.getName();
+            String uuid_official, uuid_player;
+            uuid_player = player.getUniqueId().toString();
             ArrayList<String> whitelists = (ArrayList<String>) whitelist.getStringList("whitelist");
+            ArrayList<String> whitelists_uuid = (ArrayList<String>) whitelist.getStringList("uuid");
             ArrayList<String> blacklists = (ArrayList<String>) blacklist.getStringList("blacklist");
             if(whitelist.getBoolean("enabled")){
                 for(String name : whitelists){
                     if(name.equals(playerName)){
+                        logger.info("玩家" + playerName + "存在于豁免名单中，放行");
+                        return;
+                    }
+                }
+                for(String name : whitelists_uuid){
+                    if(name.equals(uuid_player)){
                         logger.info("玩家" + playerName + "存在于豁免名单中，放行");
                         return;
                     }
@@ -44,8 +53,6 @@ public class PostLoginEventHandler implements Listener {
                 }
             }
             JSONObject result = api.sendGetWithSub(playerName);
-            String uuid_official, uuid_player;
-            uuid_player = player.getUniqueId().toString();
             while(uuid_player.contains("-")){
                 uuid_player = uuid_player.replace("-", "");
             }
@@ -60,6 +67,14 @@ public class PostLoginEventHandler implements Listener {
                 uuid_official = result.getString("id");
                 logger.info("玩家UUID为" + uuid_player);
                 if(uuid_player.equals(uuid_official)){
+                    for(String name : whitelists_uuid){
+                        if(name.equals(uuid_player)){
+                            return;
+                        }
+                    }
+                    whitelists_uuid.add(uuid_player);
+                    whitelist.set("uuid", whitelists_uuid);
+                    whitelist.save(); whitelist.reload();
                     logger.info("UUID匹配，放行");
                 }
                 else{
