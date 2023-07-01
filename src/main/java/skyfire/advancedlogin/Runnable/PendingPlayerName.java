@@ -1,7 +1,9 @@
 package skyfire.advancedlogin.Runnable;
 
 import com.alibaba.fastjson2.JSONObject;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.TranslatableComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.ArrayList;
@@ -28,8 +30,9 @@ public class PendingPlayerName implements Runnable {
         }
         JSONObject result = api.sendGetWithSub(playerName);
         String errorMessage = result.getString("errorMessage");
+
         if(errorMessage != null && !errorMessage.equals("")){
-            player.disconnect(new TextComponent(config.getString("Messages.checkFailed")));
+            player.disconnect(new TextComponent(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.checkFailed"))));
         }
     }
 }
