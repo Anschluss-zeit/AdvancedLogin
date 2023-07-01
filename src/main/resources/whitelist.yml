@@ -7,3 +7,6 @@ enabled: true
 #白名单
 whitelist:
   - Notch
+
+uuid:
+  - 00000000000000000000000000000000
