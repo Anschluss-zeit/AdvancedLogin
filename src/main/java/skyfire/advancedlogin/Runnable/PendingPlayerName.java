@@ -29,9 +29,7 @@ public class PendingPlayerName implements Runnable {
             }
         }
         JSONObject result = api.sendGetWithSub(playerName);
-        String errorMessage = result.getString("errorMessage");
-
-        if(errorMessage != null && !errorMessage.equals("")){
+        if(result == null){
             player.disconnect(new TextComponent(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.checkFailed"))));
         }
     }

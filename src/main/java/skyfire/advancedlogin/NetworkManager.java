@@ -20,7 +20,7 @@ public class NetworkManager {
         this.url = url;
     }
 
-    public synchronized JSONObject sendGet(){
+    public JSONObject sendGet(){
         StringBuilder result = new StringBuilder();
         BufferedReader in = null;
         try {
@@ -37,7 +37,7 @@ public class NetworkManager {
                 result.append(line);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            return null;
         }
         finally {
             try {
@@ -52,7 +52,7 @@ public class NetworkManager {
         return JSON.parseObject(resString);
     }
 
-    public synchronized JSONObject sendGetWithSub(String sub){
+    public JSONObject sendGetWithSub(String sub){
         StringBuilder result = new StringBuilder();
         BufferedReader in = null;
         try {
@@ -70,7 +70,7 @@ public class NetworkManager {
                 result.append(line);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            return null;
         }
         finally {
             try {
@@ -85,7 +85,7 @@ public class NetworkManager {
         return JSON.parseObject(resString);
     }
 
-    public synchronized JSONObject sendGetWithParam(String param) {
+    public JSONObject sendGetWithParam(String param) {
         StringBuilder result = new StringBuilder();
         BufferedReader in = null;
         try {
@@ -103,7 +103,7 @@ public class NetworkManager {
                 result.append(line);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            return null;
         }
         finally {
             try {
@@ -118,7 +118,7 @@ public class NetworkManager {
         return JSON.parseObject(resString);
     }
 
-    public synchronized JSONObject sendPost(String param) {
+    public JSONObject sendPost(String param) {
         PrintWriter out = null;
         BufferedReader in = null;
         StringBuilder result = new StringBuilder();
@@ -141,7 +141,7 @@ public class NetworkManager {
                 result.append(line);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            return null;
         }
         finally {
             try {

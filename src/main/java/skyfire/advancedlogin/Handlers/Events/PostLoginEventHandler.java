@@ -21,8 +21,7 @@ public class PostLoginEventHandler implements Listener {
         }
         else{
             JSONObject result = api.sendGetWithSub(player.getName());
-            String errorMessage = result.getString("errorMessage");
-            if(errorMessage != null && !errorMessage.equals("")){
+            if(result == null){
                 player.disconnect(new TextComponent(config.getString("Messages.checkFailed")));
             }
         }
